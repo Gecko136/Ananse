@@ -1,0 +1,20 @@
+From wikipedia:
+Ananse the trickster is a spider, and is one of the most important 
+characters of West African and Caribbean folklore.
+
+But:
+Ananse names a net spider environment
+
+It is a mono program that:
+
+o  is highly dynamic (using Reflection) to inspect objects
+o  interactivly follow (crawl)  properties 
+o  records the pathes involved
+o  generalises the patterns in such a crawl 
+o  generates datamodels and codes while doing so
+
+it is the ultimative trickster. Well it will be after this last sentence was 
+removed from the README.
+ 
+
+

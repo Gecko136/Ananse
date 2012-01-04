@@ -1,0 +1,115 @@
+Immutables are a pattern in programming. An object is immutable if it can't be modified after it is created.
+
+We can say that an object is defined by its state. That is all the fields (private and public) of the class itself + all the field of all the classes in the inheritance chain down to System.Object. 
+
+For an object to be immutable mean that none of these fields can be changed after the creation of the object. To assure this the object has to obey the following rules:
+
+1) none of the fields may be public (not a good idea anyway)
+2) none of the properties may possess a public setter
+3) no method (getter or what ever) except for the contructor is allowed to change a field of the object.
+
+Point 3) may be weakend if we allow private setters of the change the field, if these setters may just be used inside the constructors.
+
+Example for an immutable class:
+
+public class Immutable
+{
+	private string _firstname;
+	private string _lastname;
+
+	public Immutable(string firstname, string lastname)
+	{
+	    	_firstname = firstname;
+		_lastname  = lastname;
+	}
+
+	public string FirstName
+	{ get { return _firstname; } }
+
+	public string LastName
+	{ get { return _lastname; } }
+} 
+
+alternative
+
+public class Immutable
+{
+	public string FirstName { get; private set; }
+	public string LastName  { get; private set; }
+
+	public Immutable(string firstname, string lastname)
+	{
+		FirstName = firstname;
+		LastName  = lastname;
+	}
+}
+
+
+A none immutable class:
+
+public class NoneImmutable
+{
+	public string FirstName { get; protected set; }
+	public string lastname;
+
+	public NoneImmutable() 
+	{
+	}
+	
+	public void ToUpper()
+	{
+	   FirstName = FirstName.ToUpper();
+	}	
+}
+
+Several rule are broken:
+-  the FirstName's setter is protected. Even if for an object of type NoneImmutable it is not possible to change the FirstName property it would be possible for an object that is of a type that is inherited from NoneImmutable.
+-  lastname is a public field. Anyone may change it. This is not only obviously mutable, it is an security issue that should not be underestimated.
+-  ToUpper() changes the FirstName property. Only once (after it is upper, one can upper it again without changing the object again), but it can be changed. 
+
+After defining the immutable property of object we also define an even stronger property:
+
+We call a class strongly immutable if it is immutable and all the objects that are returned by the properties are themself strongly immutable.
+
+The following types are considered strongly immutable:
+- string
+- enumerations
+- all primitive types (int, float, bool ...)
+- DateTime (I have to check this?)
+
+Taking this our class Immutable is also strongly immutable, as all the properties are of type string that is strongly immutable.
+
+If in the testing process for strong immutability a tested class is recursively tested again, it is satisfactory to assume strong immutability if the class fulfill simple immutablility. Example:
+
+public class StrongImmutable
+{
+	public StrongImmutable Parent { get; private set; }
+	public string Name { get; private set; }
+
+	public StringImmutable (StrongImmutable parent, string name)
+	{
+		Parent = parent;
+		Name = name; 
+	}	
+}
+
+To test strong immutability of StrongImmutable we have to check if the Parent property is strongly immutable. That would lead to in infinite testing chain.
+But since in this testing process we check for StrongImmutable "the second time" it is enough to test for simple immutability which is fulfilled. Therefore StrongImmutable is indeed strongly immutable.
+ 
+Giving up all mutable properties seems like a dumb idea, but it has serveral advantages that make them interesting enough to define immutability and even strong immutability. If one uses strongly immutable objects (and one can get a long way with them) it is never necessary to copy these objects (the can't be changed anyway). You can take them apart and assemble them in another way and you can be sure not to loose the strongly immutable property. Even in multithreading environments there is no need for any locking.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

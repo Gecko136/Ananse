@@ -1,8 +1,8 @@
-Immutables are a pattern in programming. An object is immutable if it can't be modified after it is created.
+Immutables are a pattern in programming. An object is immutable if it can't be modified after it was created.
 
 We can say that an object is defined by its state. That is all the fields (private and public) of the class itself + all the field of all the classes in the inheritance chain down to System.Object. 
 
-For an object to be immutable mean that none of these fields can be changed after the creation of the object. To assure this the object has to obey the following rules:
+For an object to be immutable means that none of these fields can be changed after the creation of the object. To assure this the object has to obey the following rules:
 
 1) none of the fields may be public (not a good idea anyway)
 2) none of the properties may possess a public setter

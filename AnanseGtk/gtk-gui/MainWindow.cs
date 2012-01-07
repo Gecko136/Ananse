@@ -3,6 +3,8 @@
 
 public partial class MainWindow
 {
+	private global::Crawler.Crawler crawler1;
+	
 	protected virtual void Build ()
 	{
 		global::Stetic.Gui.Initialize (this);
@@ -10,6 +12,14 @@ public partial class MainWindow
 		this.Name = "MainWindow";
 		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+		// Container child MainWindow.Gtk.Container+ContainerChild
+		this.crawler1 = new global::Crawler.Crawler ();
+		this.crawler1.Events = ((global::Gdk.EventMask)(256));
+		this.crawler1.Name = "crawler1";
+		this.crawler1.RulesHint = false;
+		this.crawler1.Editable = false;
+		this.crawler1.ZoomIn = false;
+		this.Add (this.crawler1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}

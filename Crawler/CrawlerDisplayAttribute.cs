@@ -1,10 +1,10 @@
 // 
-//  MainWindow.cs
+//  CrawlerDisplayAttribute.cs
 //  
 //  Author:
 //       Gunnar Quehl <github@gunnar-quehl.de>
 // 
-//  Copyright (c) 2012 Gunnar Quehl
+//  Copyright (c) 2011 gecko
 // 
 //  This library is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as
@@ -20,20 +20,17 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 using System;
-using Gtk;
 
-public partial class MainWindow: Gtk.Window
-{	
-	public MainWindow (): base (Gtk.WindowType.Toplevel)
+namespace Crawler
+{
+	[ AttributeUsage(AttributeTargets.Property)]
+	public class CrawlerDisplayAttribute : Attribute
 	{
-		Build ();
-		var crawler = Ananse.CrawlerFactory.FindCrawler("1");
-		crawler1.SetObject(crawler);
-	}
-	
-	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
-	{
-		Application.Quit ();
-		a.RetVal = true;
+		public bool Show { get; set; }
+		public CrawlerDisplayAttribute (bool show)
+		{
+			Show = show;
+		}
 	}
 }
+

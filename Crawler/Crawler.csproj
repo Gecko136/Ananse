@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A749D69F-A003-4B78-B21E-F85E7F8E4C99}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>AnanseGtk</RootNamespace>
-    <AssemblyName>AnanseGtk</AssemblyName>
+    <ProjectGuid>{7B22E96C-2C4B-41E6-BFBB-0F0DC2D3317D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Crawler</RootNamespace>
+    <AssemblyName>Crawler</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,35 +30,34 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Mono.Posix" />
     <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="Mono.Posix" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="Crawler.cs" />
+    <Compile Include="gtk-gui\Crawler.Crawler.cs" />
+    <Compile Include="StringDialog.cs" />
+    <Compile Include="gtk-gui\Crawler.StringDialog.cs" />
+    <Compile Include="CrawlerDisplayAttribute.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="MainWindow.cs" />
-    <Compile Include="gtk-gui\MainWindow.cs" />
-    <Compile Include="Main.cs" />
-    <Compile Include="AssemblyInfo.cs" />
+    <None Include="Icons\Actions-edit-select-all-icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Icons\Edit-icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Crawler\Crawler.csproj">
-      <Project>{7B22E96C-2C4B-41E6-BFBB-0F0DC2D3317D}</Project>
-      <Name>Crawler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ananse\Ananse.csproj">
-      <Project>{6744B8B9-3FF2-47E6-9762-2E377C0BAFF5}</Project>
-      <Name>Ananse</Name>
-    </ProjectReference>
+    <Folder Include="Icons\" />
   </ItemGroup>
 </Project>

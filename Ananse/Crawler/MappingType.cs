@@ -1,5 +1,5 @@
 // 
-//  Crawler.cs
+//  MappingType.cs
 //  
 //  Author:
 //       Gunnar Quehl <github@gunnar-quehl.de>
@@ -20,31 +20,14 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 using System;
-using System.Collections.Generic;
 
 namespace Ananse
 {
-	public abstract class Crawler
+	public enum MappingType
 	{
-		public Crawler (CrawlerFactory factory, object tag)
-		{
-			Stack 	= SingleLinkedList<StackItem>.Empty;
-			Path  	= SingleLinkedList<CrawlerItem>.Empty;
-			Factory = Factory;
-			Tag   	= tag;
-		}
-		
-		public abstract Type[] Signature   				{ get; }
-		
-		public object Tag  								{ get; private set; }
-		
-		public CrawlerFactory 					Factory { get; private set; }
-		public SingleLinkedList<StackItem> 		Stack 	{ get; private set; }
-		public SingleLinkedList<CrawlerItem>	Path  	{ get; private set; }
-		
-		public abstract IEnumerator<string> 	Keys 	{ get; }
-		public abstract Crawler this[string key]	 	{ get; }
-
+		Property,
+		Field,
+		Method
 	}
 }
 

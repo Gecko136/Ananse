@@ -27,14 +27,44 @@ namespace Ananse
 {
 	public class CrawlerFactory
 	{
-				
+		private Dictionary<Type, Type> CrawlerBaseMap  		= new Dictionary<Type, Type>();	
+		private Dictionary<Type, Type> CrawlerInterfaceMap 	= new Dictionary<Type, Type>();	
+
+		
 		public CrawlerFactory ()
 		{
+			Register (typeof(object), typeof(ObjectCrawler));
+		}	
+		
+		public void Register(Type tagType, Type crawlerType)
+		{
+			if (tagType == null) return;
+			
+			if (tagType.IsInterface)
+				CrawlerInterfaceMap[tagType] = crawlerType;
+			else 
+				CrawlerBaseMap[tagType] = crawlerType;		
 		}
 		
-		public static Crawler FindCrawler(object tag)
+		public Crawler FindCrawler(object tag)
 		{
-			return new ObjectCrawler(tag);
+			Type basetype 			= 	tag.GetType();
+			Type basecrawlertype 	= 	null;
+			
+			while(basetype != null)
+			{
+				if (CrawlerBaseMap.ContainsKey(basetype))
+				{
+					basecrawlertype = CrawlerBaseMap[basetype];
+					break;
+				}
+				basetype = basetype.BaseType;
+			}
+			
+			if (basecrawlertype != null)
+				return Activator.CreateInstance(basecrawlertype, new object[] {this, tag}) as Crawler;
+			
+			return null;
 		}
 	}
 }

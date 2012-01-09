@@ -29,8 +29,8 @@ namespace Ananse
 	{
 		private Dictionary<string, PropertyInfo>	Properties 	{ get; set; }
 		
-		public ObjectCrawler (object tag)
-			: base(tag)
+		public ObjectCrawler (CrawlerFactory factory, object tag)
+			: base(factory, tag)
 		{
 			Properties = new Dictionary<string, PropertyInfo>();
 			
@@ -59,7 +59,10 @@ namespace Ananse
 		public override Crawler this[string key] {
 			get {
 				object val = Properties[key].GetValue (Tag, new object[] {});
-				return CrawlerFactory.FindCrawler(val);
+				if (Factory != null)
+					return Factory.FindCrawler(val);
+				else
+					return null;
 			}
 		}
 		#endregion

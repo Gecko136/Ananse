@@ -38,6 +38,8 @@
     <Compile Include="Collection\StackItem.cs" />
     <Compile Include="Crawler\ObjectCrawler.cs" />
     <Compile Include="Crawler\CrawlerFactory.cs" />
+    <Compile Include="Crawler\CrawlerItem.cs" />
+    <Compile Include="Crawler\MappingType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

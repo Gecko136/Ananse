@@ -28,7 +28,7 @@ public partial class MainWindow: Gtk.Window
 	{
 		Build ();
 		
-		var crawler = (new Ananse.CrawlerFactory()).FindCrawler("1");
+		var crawler = (new Ananse.CrawlerFactory()).FindCrawler(null, "1", null);
 		crawler1.SetObject(crawler);
 	}
 	

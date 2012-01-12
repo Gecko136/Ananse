@@ -46,9 +46,13 @@ namespace Ananse
 				CrawlerBaseMap[tagType] = crawlerType;		
 		}
 		
-		public Crawler FindCrawler(object tag)
+		public Crawler FindCrawler(Crawler parent, object tag, Type tagType)
 		{
-			Type basetype 			= 	tag.GetType();
+			if (tag != null)
+				if (tagType == null || !tagType.IsAssignableFrom(tag.GetType()))
+					tagType = tag.GetType();
+			
+		    Type basetype 			= 	tagType;
 			Type basecrawlertype 	= 	null;
 			
 			while(basetype != null)
@@ -62,7 +66,7 @@ namespace Ananse
 			}
 			
 			if (basecrawlertype != null)
-				return Activator.CreateInstance(basecrawlertype, new object[] {this, tag}) as Crawler;
+				return Activator.CreateInstance(basecrawlertype, new object[] {this, tag, tagType}) as Crawler;
 			
 			return null;
 		}

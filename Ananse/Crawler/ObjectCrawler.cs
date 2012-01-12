@@ -28,15 +28,39 @@ namespace Ananse
 	public class ObjectCrawler : Crawler
 	{
 		private Dictionary<string, PropertyInfo>	Properties 	{ get; set; }
+		private Dictionary<string, MethodInfo>      Methods 	{ get; set; }
 		
-		public ObjectCrawler (CrawlerFactory factory, object tag)
-			: base(factory, tag)
+		public ObjectCrawler (CrawlerFactory factory, object tag, Type tagType)
+			: base(factory, tag, tagType)
 		{
 			Properties = new Dictionary<string, PropertyInfo>();
+			Methods    = new Dictionary<string, MethodInfo>();
 			
-			if (Tag != null)
-				foreach (var propinfo in Tag.GetType().GetProperties())
-					Properties.Add(propinfo.Name, propinfo);	
+			if (Tag == null) return;
+			
+			foreach (var propinfo in Tag.GetType().GetProperties())
+				Properties.Add(propinfo.Name, propinfo);
+		
+			foreach (var methinfo in Tag.GetType().GetMethods())
+			{
+				ParameterInfo[] parameters = methinfo.GetParameters();
+					
+				Type[] types = new Type[parameters.Length];
+				for(int i = 0; i<types.Length; i++)
+					types[i] = parameters[i].ParameterType;
+				
+				List<Type> stackTypes = new List<Type>();
+				foreach(var si in Stack)
+					stackTypes.Add(si.Crawler.TagType);
+				
+				// check if the parameter type of methinfo are compatible with the stacktypes
+				if (stackTypes.Count < types.Length) continue; // not compatible
+				for (int i = 0; i <types.Length; i++)
+					if (!types[i].IsAssignableFrom(stackTypes[i]))
+					    continue; // not compatible
+				// compatible
+				Methods[methinfo.Name] = methinfo;		
+			}
 		}
 	
 		
@@ -47,25 +71,82 @@ namespace Ananse
 			}
 		}
 
-		public override IEnumerator<string> Keys {
+		public override IEnumerable<KeyItem> Keys {
 			get {
 				foreach (var name in Properties.Keys)
 				{
-					yield return name;
+					yield return new KeyItem(MappingType.Property, name, Type.EmptyTypes);
+				}
+				
+				foreach (var name in Methods.Keys)
+				{
+					MethodInfo mi = Methods[name];
+					ParameterInfo[] parameters = mi.GetParameters();
+					
+					Type[] types = new Type[parameters.Length];
+					for(int i = 0; i<types.Length; i++)
+						types[i] = parameters[i].ParameterType;
+					
+					yield return new KeyItem(MappingType.Method, name, types);
 				}
 			}
 		}
 
-		public override Crawler this[string key] {
+		public override CrawlerItem this[KeyItem keyItem] {
 			get {
-				object val = Properties[key].GetValue (Tag, new object[] {});
-				if (Factory != null)
-					return Factory.FindCrawler(val);
-				else
-					return null;
+				if (Properties.ContainsKey(keyItem.Key))
+				{
+					var 	propInfo 	= Properties[keyItem.Key];
+					object 	val 		= propInfo.GetValue (Tag, new object[] {});
+					
+					if (Factory != null)
+					{
+						Crawler 	next 		= Factory.FindCrawler(this, val, propInfo.PropertyType);
+						CrawlerItem nextItem 	= new CrawlerItem(next, MappingType.Property, keyItem.Signature);
+						return nextItem;
+					}
+					
+					else
+					return new CrawlerItem(null, MappingType.Property, null);
+				}
+				
+				if (Methods.ContainsKey(keyItem.Key))
+				{
+					var 			methInfo 	= Methods[keyItem.Key];
+					List<object> 	parameter 	= new List<object>();
+					var				currstack   = Stack;
+					for(int i=0; i<keyItem.Signature.Length; i++)
+					{
+						parameter.Add(currstack.Head.Crawler.Tag);
+						currstack = currstack.Tail;
+					}
+					
+					object 			val 		= methInfo.Invoke(Tag, parameter.ToArray());
+					
+					if (Factory != null)
+					{
+						Crawler 	next 		= Factory.FindCrawler(this, val, methInfo.ReturnType );
+						CrawlerItem nextItem 	= new CrawlerItem(next, MappingType.Property, keyItem.Signature);
+						return nextItem;
+					}
+					
+					else
+					return new CrawlerItem(null, MappingType.Property, null);
+				}				
+				return null;
 			}
 		}
+		
 		#endregion
+
+		// temporary hack because the GtkCrawler does not handle IEnumables correctly
+		public List<KeyItem> KeyCollection
+		{
+			get{ 
+				return new List<KeyItem>(Keys);
+			}
+		}
+		
 	}
 }
 

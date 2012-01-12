@@ -1,5 +1,5 @@
 // 
-//  StackItem.cs
+//  KeyItem.cs
 //  
 //  Author:
 //       Gunnar Quehl <github@gunnar-quehl.de>
@@ -23,13 +23,17 @@ using System;
 
 namespace Ananse
 {
-	public class StackItem
+	public class KeyItem
 	{
-		public Crawler Crawler {get; private set;}
+		public MappingType			MappingType	{ get; private set; }
+		public string				Key			{ get; private set; }
+		public Type[] 				Signature 	{ get; private set; }
 		
-		public StackItem (Crawler crawler)
+		public KeyItem (MappingType mappingType, string key, Type[] signature)
 		{
-			Crawler = crawler;
+			MappingType = mappingType;
+			Key   		= key;
+			Signature   = signature;
 		}
 	}
 }

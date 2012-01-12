@@ -26,24 +26,30 @@ namespace Ananse
 {
 	public abstract class Crawler
 	{
-		public Crawler (CrawlerFactory factory, object tag)
+		public Crawler (CrawlerFactory factory, object tag, Type tagType)
 		{
 			Stack 	= SingleLinkedList<StackItem>.Empty;
 			Path  	= SingleLinkedList<CrawlerItem>.Empty;
 			Factory = Factory;
 			Tag   	= tag;
+			
+			if (tag != null)
+				if (tagType == null || !tagType.IsAssignableFrom(tag.GetType()))
+				    tagType = tag.GetType();
+			TagType = tagType;
 		}
 		
 		public abstract Type[] Signature   				{ get; }
 		
 		public object Tag  								{ get; private set; }
+		public Type	  TagType							{ get; private set; }
 		
 		public CrawlerFactory 					Factory { get; private set; }
 		public SingleLinkedList<StackItem> 		Stack 	{ get; private set; }
 		public SingleLinkedList<CrawlerItem>	Path  	{ get; private set; }
 		
-		public abstract IEnumerator<string> 	Keys 	{ get; }
-		public abstract Crawler this[string key]	 	{ get; }
+		public abstract IEnumerable<KeyItem> 	Keys 	{ get; }
+		public abstract CrawlerItem this[KeyItem keyItem]{ get; }
 
 	}
 }

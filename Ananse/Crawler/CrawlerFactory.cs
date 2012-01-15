@@ -34,6 +34,7 @@ namespace Ananse
 		public CrawlerFactory ()
 		{
 			Register (typeof(object), typeof(ObjectCrawler));
+			Register (typeof(Input), typeof(InputCrawler));
 		}	
 		
 		public void Register(Type tagType, Type crawlerType)

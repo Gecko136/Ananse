@@ -41,6 +41,8 @@
     <Compile Include="Crawler\CrawlerItem.cs" />
     <Compile Include="Crawler\MappingType.cs" />
     <Compile Include="Crawler\KeyItem.cs" />
+    <Compile Include="Crawler\InputCrawler.cs" />
+    <Compile Include="Crawler\Input.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

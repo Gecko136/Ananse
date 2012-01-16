@@ -8,6 +8,12 @@ namespace AnanseGtk
 		private global::Gtk.VBox vbox1;
 		private global::Gtk.HPaned hpaned1;
 		private global::Gtk.HPaned hpaned2;
+		private global::Gtk.VPaned vpaned1;
+		private global::Gtk.Frame frame3;
+		private global::Gtk.Alignment GtkAlignment2;
+		private global::Gtk.ScrolledWindow GtkScrolledWindow;
+		private global::Gtk.TreeView keyTree;
+		private global::Gtk.Label GtkLabel;
 		private global::Crawler.Crawler crawler1;
 		private global::Gtk.VPaned vpaned3;
 		private global::Gtk.Frame frame1;
@@ -45,20 +51,53 @@ namespace AnanseGtk
 			this.hpaned2.Name = "hpaned2";
 			this.hpaned2.Position = 294;
 			// Container child hpaned2.Gtk.Paned+PanedChild
+			this.vpaned1 = new global::Gtk.VPaned ();
+			this.vpaned1.CanFocus = true;
+			this.vpaned1.Name = "vpaned1";
+			this.vpaned1.Position = 203;
+			// Container child vpaned1.Gtk.Paned+PanedChild
+			this.frame3 = new global::Gtk.Frame ();
+			this.frame3.Name = "frame3";
+			this.frame3.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child frame3.Gtk.Container+ContainerChild
+			this.GtkAlignment2 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.GtkAlignment2.Name = "GtkAlignment2";
+			this.GtkAlignment2.LeftPadding = ((uint)(12));
+			// Container child GtkAlignment2.Gtk.Container+ContainerChild
+			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
+			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
+			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
+			this.keyTree = new global::Gtk.TreeView ();
+			this.keyTree.CanFocus = true;
+			this.keyTree.Name = "keyTree";
+			this.GtkScrolledWindow.Add (this.keyTree);
+			this.GtkAlignment2.Add (this.GtkScrolledWindow);
+			this.frame3.Add (this.GtkAlignment2);
+			this.GtkLabel = new global::Gtk.Label ();
+			this.GtkLabel.Name = "GtkLabel";
+			this.GtkLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Keys</b>");
+			this.GtkLabel.UseMarkup = true;
+			this.frame3.LabelWidget = this.GtkLabel;
+			this.vpaned1.Add (this.frame3);
+			global::Gtk.Paned.PanedChild w6 = ((global::Gtk.Paned.PanedChild)(this.vpaned1 [this.frame3]));
+			w6.Resize = false;
+			// Container child vpaned1.Gtk.Paned+PanedChild
 			this.crawler1 = new global::Crawler.Crawler ();
 			this.crawler1.Events = ((global::Gdk.EventMask)(256));
 			this.crawler1.Name = "crawler1";
 			this.crawler1.RulesHint = false;
 			this.crawler1.Editable = false;
 			this.crawler1.ZoomIn = false;
-			this.hpaned2.Add (this.crawler1);
-			global::Gtk.Paned.PanedChild w3 = ((global::Gtk.Paned.PanedChild)(this.hpaned2 [this.crawler1]));
-			w3.Resize = false;
+			this.vpaned1.Add (this.crawler1);
+			this.hpaned2.Add (this.vpaned1);
+			global::Gtk.Paned.PanedChild w8 = ((global::Gtk.Paned.PanedChild)(this.hpaned2 [this.vpaned1]));
+			w8.Resize = false;
 			// Container child hpaned2.Gtk.Paned+PanedChild
 			this.vpaned3 = new global::Gtk.VPaned ();
 			this.vpaned3.CanFocus = true;
 			this.vpaned3.Name = "vpaned3";
-			this.vpaned3.Position = 189;
+			this.vpaned3.Position = 208;
 			// Container child vpaned3.Gtk.Paned+PanedChild
 			this.frame1 = new global::Gtk.Frame ();
 			this.frame1.Name = "frame1";
@@ -84,8 +123,8 @@ namespace AnanseGtk
 			this.GtkLabel1.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel1;
 			this.vpaned3.Add (this.frame1);
-			global::Gtk.Paned.PanedChild w7 = ((global::Gtk.Paned.PanedChild)(this.vpaned3 [this.frame1]));
-			w7.Resize = false;
+			global::Gtk.Paned.PanedChild w12 = ((global::Gtk.Paned.PanedChild)(this.vpaned3 [this.frame1]));
+			w12.Resize = false;
 			// Container child vpaned3.Gtk.Paned+PanedChild
 			this.frame2 = new global::Gtk.Frame ();
 			this.frame2.Name = "frame2";
@@ -113,11 +152,11 @@ namespace AnanseGtk
 			this.vpaned3.Add (this.frame2);
 			this.hpaned2.Add (this.vpaned3);
 			this.hpaned1.Add (this.hpaned2);
-			global::Gtk.Paned.PanedChild w13 = ((global::Gtk.Paned.PanedChild)(this.hpaned1 [this.hpaned2]));
-			w13.Resize = false;
+			global::Gtk.Paned.PanedChild w18 = ((global::Gtk.Paned.PanedChild)(this.hpaned1 [this.hpaned2]));
+			w18.Resize = false;
 			this.vbox1.Add (this.hpaned1);
-			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hpaned1]));
-			w14.Position = 0;
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hpaned1]));
+			w19.Position = 0;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

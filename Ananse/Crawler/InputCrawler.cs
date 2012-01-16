@@ -1,5 +1,5 @@
 // 
-//  MainWindow.cs
+//  InputCrawler.cs
 //  
 //  Author:
 //       Gunnar Quehl <github@gunnar-quehl.de>
@@ -20,21 +20,20 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 using System;
-using Gtk;
 
-public partial class MainWindow: Gtk.Window
-{	
-	public MainWindow (): base (Gtk.WindowType.Toplevel)
+namespace Ananse
+{
+	public class InputCrawler : ObjectCrawler
 	{
-		Build ();
+		public InputCrawler (CrawlerFactory factory, object tag, Type tagType )
+			: base (factory, tag, tagType)
+		{
+		}
 		
-		var crawler = (new Ananse.CrawlerFactory()).FindCrawler(null, "1", null);
-		presenter1.SetCrawler(crawler);
-	}
-	
-	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
-	{
-		Application.Quit ();
-		a.RetVal = true;
+		public void SetValue(string value)
+		{
+			((Input)Tag).Value = value;
+		}
 	}
 }
+

@@ -7,6 +7,7 @@ public partial class MainWindow
 	private global::Gtk.VBox vbox1;
 	private global::Gtk.MenuBar menubar1;
 	private global::Gtk.HPaned hpaned1;
+	private global::AnanseGtk.Presenter presenter1;
 	
 	protected virtual void Build ()
 	{
@@ -37,9 +38,16 @@ public partial class MainWindow
 		this.hpaned1.CanFocus = true;
 		this.hpaned1.Name = "hpaned1";
 		this.hpaned1.Position = 621;
+		// Container child hpaned1.Gtk.Paned+PanedChild
+		this.presenter1 = new global::AnanseGtk.Presenter ();
+		this.presenter1.Events = ((global::Gdk.EventMask)(256));
+		this.presenter1.Name = "presenter1";
+		this.hpaned1.Add (this.presenter1);
+		global::Gtk.Paned.PanedChild w3 = ((global::Gtk.Paned.PanedChild)(this.hpaned1 [this.presenter1]));
+		w3.Resize = false;
 		this.vbox1.Add (this.hpaned1);
-		global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hpaned1]));
-		w3.Position = 1;
+		global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hpaned1]));
+		w4.Position = 1;
 		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();

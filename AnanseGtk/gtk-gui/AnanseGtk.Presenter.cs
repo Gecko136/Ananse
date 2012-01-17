@@ -163,6 +163,9 @@ namespace AnanseGtk
 			}
 			w1.SetUiManager (UIManager);
 			this.Hide ();
+			this.keyTree.RowActivated += new global::Gtk.RowActivatedHandler (this.OnKeyTreeRowActivated);
+			this.stackTree.RowActivated += new global::Gtk.RowActivatedHandler (this.OnStackTreeRowActivated);
+			this.pathTree.RowActivated += new global::Gtk.RowActivatedHandler (this.OnPathTreeRowActivated);
 		}
 	}
 }

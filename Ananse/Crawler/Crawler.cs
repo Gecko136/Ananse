@@ -30,7 +30,7 @@ namespace Ananse
 		{
 			Stack 	= SingleLinkedList<StackItem>.Empty;
 			Path  	= SingleLinkedList<CrawlerItem>.Empty;
-			Factory = Factory;
+			Factory = factory;
 			Tag   	= tag;
 			
 			if (tag != null)

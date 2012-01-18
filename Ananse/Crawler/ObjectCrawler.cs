@@ -97,7 +97,17 @@ namespace Ananse
 				if (Properties.ContainsKey(keyItem.Key))
 				{
 					var 	propInfo 	= Properties[keyItem.Key];
-					object 	val 		= propInfo.GetValue (Tag, new object[] {});
+			
+					object 	val;
+					try {
+						val = propInfo.GetValue (Tag, new object[] {});
+					}
+					catch(Exception ex)
+					{
+						Crawler 	next 		= Factory.FindCrawler(this, ex, ex.GetType());
+						CrawlerItem nextItem 	= new CrawlerItem(next, MappingType.Property, keyItem.Signature);
+						return nextItem;
+					}
 					
 					if (Factory != null)
 					{
@@ -121,7 +131,17 @@ namespace Ananse
 						currstack = currstack.Tail;
 					}
 					
-					object 			val 		= methInfo.Invoke(Tag, parameter.ToArray());
+					object 			val;
+
+					try {
+						val 		= methInfo.Invoke(Tag, parameter.ToArray());
+					}
+					catch(Exception ex)
+					{
+						Crawler 	next 		= Factory.FindCrawler(this, ex, ex.GetType());
+						CrawlerItem nextItem 	= new CrawlerItem(next, MappingType.Property, keyItem.Signature);
+						return nextItem;
+					}
 					
 					if (Factory != null)
 					{

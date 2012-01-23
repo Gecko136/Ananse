@@ -75,7 +75,7 @@ namespace Ananse
 			get {
 				foreach (var name in Properties.Keys)
 				{
-					yield return new KeyItem(MappingType.Property, name, Type.EmptyTypes);
+					yield return new KeyItem("", MappingType.Property, name, Type.EmptyTypes);
 				}
 				
 				foreach (var name in Methods.Keys)
@@ -87,7 +87,7 @@ namespace Ananse
 					for(int i = 0; i<types.Length; i++)
 						types[i] = parameters[i].ParameterType;
 					
-					yield return new KeyItem(MappingType.Method, name, types);
+					yield return new KeyItem("", MappingType.Method, name, types);
 				}
 			}
 		}

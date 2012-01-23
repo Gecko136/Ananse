@@ -28,9 +28,11 @@ namespace Ananse
 		public MappingType			MappingType	{ get; private set; }
 		public string				Key			{ get; private set; }
 		public Type[] 				Signature 	{ get; private set; }
+		public string				Category    { get; private set; }
 		
-		public KeyItem (MappingType mappingType, string key, Type[] signature)
+		public KeyItem (string category, MappingType mappingType, string key, Type[] signature)
 		{
+			Category 	= category;
 			MappingType = mappingType;
 			Key   		= key;
 			Signature   = signature;

@@ -20,6 +20,7 @@
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 using System;
+using System.Collections.Generic;
 using Ananse;
 
 namespace AnanseGtk
@@ -151,16 +152,48 @@ namespace AnanseGtk
 		public void SetKey (System.Collections.Generic.IEnumerable<KeyItem> keys)
 		{
 			Gtk.TreeStore keyTreeStore = new Gtk.TreeStore(typeof(string), typeof(string), typeof(KeyItem));
-		
-			Gtk.TreeIter iter = new Gtk.TreeIter();
+			
+			Dictionary<MappingType, Dictionary<String, List<KeyItem>>> map = new Dictionary<MappingType, Dictionary<String, List<KeyItem>>>  ();
 			foreach (var keyItem in keys)
 			{
-				// todo: Crawler, Tag or TagType might be null
-				iter = keyTreeStore.AppendValues (
-					keyItem.Key,
-					keyItem.MappingType.ToString(),
-					keyItem
-				);
+				MappingType mt = keyItem.MappingType;
+				if(!map.ContainsKey(mt))
+					map[mt] = new Dictionary<string, List<KeyItem>>();
+				
+				var mtd = map[mt];
+				string category = keyItem.Category ?? "";
+				if (!mtd.ContainsKey(category))
+					mtd[category] = new List<KeyItem>();
+				
+				var list = mtd[category];
+				list.Add(keyItem);
+			}
+			
+			
+			var mappingTypeList = new List<MappingType> (map.Keys);
+			mappingTypeList.Sort();
+			foreach (var mtItem in mappingTypeList)
+			{
+				Gtk.TreeIter mtIter = keyTreeStore.AppendValues (mtItem.ToString(), "", null);
+				
+				var categoryList = new List<string>(map[mtItem].Keys);
+				categoryList.Sort();
+				foreach (var catItem in categoryList)
+				{
+					Gtk.TreeIter catIter;
+					if (string.IsNullOrEmpty(catItem))
+						catIter = mtIter;
+					else 
+						catIter =  keyTreeStore.AppendValues (mtIter, catItem);
+				
+					var morphList = map[mtItem][catItem];
+					morphList.Sort((x,y) => x.Key.CompareTo (y.Key));
+					
+					foreach (var keyItem in morphList)
+					{
+						keyTreeStore.AppendValues(mtIter, keyItem.Key, "", keyItem);
+					}
+				}
 			}	
 			keyTree.Model = keyTreeStore;
 		}
@@ -216,7 +249,7 @@ namespace AnanseGtk
 			keyTree.Model.GetIter(out iter, args.Path);
 			KeyItem key = keyTree.Model.GetValue(iter,2) as KeyItem;
 			
-			SetCrawler(Crawler[key].Crawler);		
+			if (key != null) SetCrawler(Crawler[key].Crawler);		
 		}
 
 		protected void OnStackTreeRowActivated (object o, Gtk.RowActivatedArgs args)
@@ -226,17 +259,17 @@ namespace AnanseGtk
 			stackTree.Model.GetIter(out iter, args.Path);
 			KeyItem key = stackTree.Model.GetValue(iter,2) as KeyItem;
 			
-			SetCrawler(Crawler[key].Crawler);		
+			if (key != null) SetCrawler(Crawler[key].Crawler);		
 		}
 
 		protected void OnPathTreeRowActivated (object o, Gtk.RowActivatedArgs args)
 		{
 			Gtk.TreeIter iter;
-			
+
 			pathTree.Model.GetIter(out iter, args.Path);
 			KeyItem key = pathTree.Model.GetValue(iter,2) as KeyItem;
 			
-			SetCrawler(Crawler[key].Crawler);		
+			if (key != null) SetCrawler(Crawler[key].Crawler);		
 		}
 	}
 }

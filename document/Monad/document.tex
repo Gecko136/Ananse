@@ -1,0 +1,34 @@
+\fx\pdfoutput\undefined % If you are running latex then:
+\documentclass[12pt,a4paper]{book}
+% put here packages only for the DVI:
+\usepackage[dvips]{graphicx}
+\else % else, you are running pdflatex:
+\documentclass[pdftex,10pt,a4wide]{book}
+% put here packages only for the PDF:
+\usepackage[pdftex]{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.mps}
+\usepackage{hyperref}
+\fi
+
+% put all the other packages here:
+\usepackage{mystyle}
+
+\begin{document}
+\include{tex/title.tex}
+
+%/maketitle
+\tableofcontents
+%\listoffigures
+%\listoftables
+
+\include{tex/sections.tex}
+
+\appendix
+\include{tex/myappendix.tex}
+
+%Bibliography
+\clearpage
+\addcontentsline{toc}{chapter}{Bibliography}
+\include{tex/mybibliography.tex}
+
+\end{document}
